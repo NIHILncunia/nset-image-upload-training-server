@@ -20,18 +20,28 @@ async function bootstrap() {
   app.set('etag', false);
 
   const config = new DocumentBuilder()
-    .setTitle('API문서명')
-    .setDescription('API문서 설명')
+    .setTitle('니힐보드')
+    .setDescription('누구나 간편하게 게시글을 작성할 수 있습니다.')
     .setVersion('1.0') // API 버전
     .build();
+
   const document = SwaggerModule.createDocument(app, config);
+
   SwaggerModule.setup('docs', app, document, {
-    swaggerOptions: { defaultModelsExpandDepth: 0, },
+    customSiteTitle: '니힐보드 API 설명서',
+    swaggerOptions: {
+      defaultModelsExpandDepth: 0,
+    },
   });
 
   const logger = new Logger('NestApplication', { timestamp: true, });
 
-  await app.listen(port);
-  logger.log(`서버가 ${port} 포트에서 실행됩니다.`);
+  await app.listen(
+    port,
+    () => {
+      logger.log(`서버가 ${port} 포트에서 실행됩니다.`);
+      logger.log(`http://localhost:${port}/docs`);
+    }
+  );
 }
 bootstrap();

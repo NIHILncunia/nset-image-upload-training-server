@@ -21,6 +21,7 @@ model User {
   UserAuth   UserAuth[]
   UserToken  UserToken[]
   Withdrawal Withdrawal[]
+  Post       Post[]
 
   @@map("user")
 }
@@ -65,4 +66,30 @@ model Withdrawal {
 
   @@index([userId], map: "withdrawal_user_id_fk")
   @@map("withdrawal")
+}
+
+model Post {
+  id        Int         @id @default(autoincrement())
+  user      User        @relation(fields: [userId], references: [id], map: "post_user_id_fk")
+  userId    Int
+  title     String      @db.VarChar(200)
+  content   String      @db.VarChar(1000)
+  created   DateTime    @default(now())
+  updated   DateTime    @updatedAt
+  PostImage PostImage[]
+
+  @@index([userId], map: "post_user_id_fk")
+  @@map("post")
+}
+
+model PostImage {
+  id        Int    @id @default(autoincrement())
+  post      Post?  @relation(fields: [postId], references: [id], map: "post_image_post_id_fk")
+  postId    Int?
+  imagePath String @db.VarChar(400)
+  imageType String @db.VarChar(20)
+  imageSize Int
+
+  @@index([postId], map: "post_image_post_id_fk")
+  @@map("post_image")
 }

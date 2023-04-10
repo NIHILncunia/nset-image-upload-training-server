@@ -7,6 +7,8 @@ import { UserModule } from './user/user.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { WithdrawalModule } from './withdrawal/withdrawal.module';
 import { FileModule } from './file/file.module';
+import { PostModule } from './post/post.module';
+import { PostImageModule } from './post-image/post-image.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { FileModule } from './file/file.module';
     UserModule,
     WithdrawalModule,
     FileModule,
+    PostModule,
+    PostImageModule,
   ],
 })
 export class AppModule implements NestModule {
